@@ -1,0 +1,46 @@
+---
+title: React 出现的历史背景及特性介绍
+date: 2019-07-29 22:00:00
+categories:
+- 前端
+tags:
+- react
+---
+
+### 历史背景
+
+facebook 的工程师在上线顶部状态栏后发现了一个 bug，点击消息通知后，图标上的悬浮的消息数量并没有更新或者消失。在这个“简单”的问题上，这个 bug 反复出现。
+
+后来他们总结了问题出现的根源，主要有一下两点：
+
+1. 传统 UI 操作关注太多细节
+2. 应用程序状态分散在各处，难以追踪和维护
+
+### 特性介绍
+
+<!-- more -->
+
+> 1 个新概念  
+> 4 个必须 API  
+> 单向数据流  
+> 完善的错误提示
+
+对于传统 DOM API 关注太多细节的问题，React 提出始终整体刷新页面，无需关注细节。
+
+传统 MVC 数据模型难以扩展和维护，下图可以看到 Model 与 View 之间的关系错综复杂，数据双向绑定，遇到问题之后很难迅速判断到底是 Model 还是 View 上产生的。
+
+![传统 MVC 难以扩展和维护](https://www.yeyanjie.com/resource/images/201907/2901.png)
+
+那么 React 是如何解决数据模型的问题呢？React 提出了一个 Flux 架构，核心思想是单向数据流，React Views（UI）上发生用户操作时会产生一个 Action，这个 Action 会通过 Dispatcher 派发出去，由 Store 进行处理，而 React Views 是绑定在 Store 上的，所以当 Store 有任何变化时，React Views 会更新。Flux 架构是建立在 React 始终以状态为基础来展示 UI，所以不需要关心细节，就能把 React View connect 到 Store 上
+
+![Flex 架构](https://www.yeyanjie.com/resource/images/201907/2902.png)
+
+Flex 架构的衍生项目
+- Redux
+- MobX
+
+### 小结
+
+1. 传统 Web UI 开发的问题
+2. React：始终整体刷新页面
+3. Flux：单向数据流
