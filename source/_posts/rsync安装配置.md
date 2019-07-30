@@ -1,93 +1,125 @@
-## rsync 同步文件到服务器
+---
+title: rsync 同步文件到服务器
+date: 2019-05-24 08:44:00
+categories:
+- 安装教程
+tags:
+- 镜像备份
+- linux
+- windows
+---
 
-### Linux命令
+### rsync简介
 
-		安装
-		yum install -y rsync
+rsync是linux系统下的数据镜像备份工具。使用快速增量备份工具Remote Sync可以远程同步，支持本地复制，或者与其他SSH、rsync主机同步。
 
-		查看服务器进程 		
-		ps aux | grep rsync
+它的特性如下：
+- 可以镜像保存整个目录树和文件系统。
+- 可以很容易做到保持原来文件的权限、时间、软硬链接等等。
+- 无须特殊权限即可安装。
+- 快速：第一次同步时 rsync 会复制全部内容，但在下一次只传输修改的文件。rsync 在传输数据的过程中可以实行压缩及解压缩操作，因此以使用更少的带宽。
+- 安全：可以使用scp、ssh等方式来传输文件，当然也可以通过直接socket连接。
+- 支持匿名传输，以方便进行网站镜像。
 
-		杀死进程
-		pkill rsync
+### 服务器端部署
+<!-- more -->
+#### 安装
+``` bash
+$ yum install -y rsync  // CentOS
+```
+#### 修改配置文件
+``` bash
+$ vi /etc/rsyncd.conf
 
-		启动服务
-		rsync --daemon --config=/etc/rsyncd.conf
+// rsyncd.conf
 
-		设置权限
-		chmod 600 /etc/rsyncd.passwd
-		chown -R publish:publish 目录
+#全局配置
+uid = root
+gid = root
+incoming chmod = Du=rwx,Dog=rx,Fu=rwx,Fgo=rx
+exclude = node_modules/ .git/
 
-### 服务端
-	    创建传输目录
+# 模块配置
+[www]    
+host allow = *
+path = /home/wwwroot
+comment = www
+auth users = publish
+secrets file = /etc/rsyncd.passwd
+read only = no
+```
 
-### 服务端配置文件
+#### 创建密码文件
+``` bash
+$ vi /etc/rsyncd.passwd
 
-		$ vi /etc/rsyncd.conf
+备份用户:备份密码   // 如publish:abc123
+```
 
-		#全局配置
-		uid = root
-		gid = root
-		incoming chmod = Du=rwx,Dog=rx,Fu=rwx,Fgo=rx
-		exclude = node_modules/ .git/
+#### 指定目录并赋予权限
+``` bash
+chmod 600 /etc/rsyncd.passwd
+chown -R publish:publish 备份目录
+```
 
-		# 模块配置
-		[www]    
-		host allow = *
-		path = /home/wwwroot
-		comment = www
-		auth users = publish
-		secrets file = /etc/rsyncd.passwd
-		read only = no
+#### 启动/停止服务
+``` bash
+查看服务器进程 		
+$ ps aux | grep rsync
 
-### 服务端密码文件
+杀死进程
+$ pkill rsync
 
-		$ vi /etc/rsyncd.passwd
+启动服务
+$ rsync --daemon --config=/etc/rsyncd.conf
+```
 
-		user:passwd   // publish:abc123
+### 客户端(windows)
 
-### 客户端
+#### 安装
+cwRsync (windows版)
 
-		安装
-		windows版本
+#### 配置文件结构
+-- publish  
+-- -- pubToProd.sh   （备份脚本）  
+-- -- PwdPubToProd.pwd	（密码文件）
 
-		项目文件模板
-		- publish
-		  - pubToProd.sh
-		  - PwdPubToProd.pwd
-		
-		// pubToProd.sh
+#### 配置文件实例
+```bash
+// pubToProd.sh
 
-		echo '*************发布正式环境******************'
-		echo '*                                         *'
-		echo '*         地址: 95.163.202.221             *'
-		echo '*         密码: 隐藏                       *'
-		echo '*                                         *'
-		echo '*******************************************'
-		echo '                                           '
-		echo '*              starting...                *'
-		echo '                                           '
-		echo -n " 确认发布到正式环境!!!!!!请输入(yes) -> "
-		read int
-		if [[ "$int" == "yes" || "$int" == "y" ]]; then
+echo '*************发布正式环境******************'
+echo '*                                         *'
+echo '*         地址: 95.163.202.221             *'
+echo '*         密码: 隐藏                       *'
+echo '*                                         *'
+echo '*******************************************'
+echo '                                           '
+echo '*              starting...                *'
+echo '                                           '
+echo -n " 确认发布到正式环境!!!!!!请输入(yes) -> "
+read int
+if [[ "$int" == "yes" || "$int" == "y" ]]; then
 
-    		echo '                                           '
-    		echo '                                           '
-    		rsync -aP --progress  --password-file=./PwdPubToProd.pwd ../dist/ publish@95.163.202.221::www/test.yeyanjie.com/node-react-admin
+echo '                                           '
+echo '                                           '
+rsync -aP --progress  --password-file='客户端密码文件相对路径' '备份文件夹相对路径' '备份用户'@'IP地址'::'模块名'/'模块路径后相对路径'
 
-    		echo '                                           '
-    		echo '                                           '
-    		echo '******************END**********************'
-    		echo '                                           '
-		else
-    		echo '                                           '
-    		echo '                                           '
-    		echo '*******************************************'
-    		echo '*                                         *'
-    		echo -e '*     \033[31m    确认失败,请重新发布！ \033[0m          *'
-    		echo '*                                         *'
-    		echo '*******************************************'
-		fi
+echo '                                           '
+echo '                                           '
+echo '******************END**********************'
+echo '                                           '
+else
+echo '                                           '
+echo '                                           '
+echo '*******************************************'
+echo '*                                         *'
+echo -e '*     \033[31m    确认失败,请重新发布！ \033[0m          *'
+echo '*                                         *'
+echo '*******************************************'
+fi
 
-		// PwdPubToProd.pwd
-		passwd
+// PwdPubToProd.pwd
+
+备份密码
+```
