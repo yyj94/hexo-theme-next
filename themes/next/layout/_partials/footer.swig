@@ -58,3 +58,12 @@
 {%- for inject_item in theme.injects.footer %}
   {{ partial(inject_item.layout, inject_item.locals, inject_item.options) }}
 {%- endfor %}
+
+{%- if theme.footer.powered.enable and theme.footer.theme.enable %}
+  <span class="post-meta-divider">|</span>
+{%- endif %}
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">全站共{{ totalcount(site) }}字</span>
+</div>

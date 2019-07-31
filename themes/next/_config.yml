@@ -39,10 +39,10 @@ custom_file_path:
 # ---------------------------------------------------------------
 
 favicon:
-  small: /images/favicon-16x16-next.png
-  medium: /images/favicon-32x32-next.png
-  apple_touch_icon: /images/apple-touch-icon-next.png
-  safari_pinned_tab: /images/logo.svg
+  small: /images/favicon-16x16-leaf.ico
+  medium: /images/favicon.ico
+  apple_touch_icon: /images/apple-touch-icon-next.icns
+  safari_pinned_tab: /images/logo.ico
   #android_manifest: /images/manifest.json
   #ms_browserconfig: /images/browserconfig.xml
 
@@ -527,6 +527,9 @@ math:
       enable: false
       copy_tex_js: //cdn.jsdelivr.net/npm/katex@0/dist/contrib/copy-tex.min.js
       copy_tex_css: //cdn.jsdelivr.net/npm/katex@0/dist/contrib/copy-tex.min.css
+
+# Fireworks
+fireworks: false
 
 # Fancybox. There is support for old version 2 and new version 3.
 # Choose only one variant, do not need to install both.
