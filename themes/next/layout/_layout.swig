@@ -104,5 +104,9 @@
     <script type="text/javascript" src="/js/src/fireworks.js"></script>
   {% endif %}
 
+  {% if theme.crash_cheat %}
+    <script type="text/javascript" src="/js/src/crash_cheat.js"></script>
+  {% endif %}
+
 </body>
 </html>

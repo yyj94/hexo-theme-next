@@ -186,13 +186,13 @@ site_state: true
 # Value after `||` delimiter is the name of Font Awesome icon. If icon (with or without delimiter) is not specified, globe icon will be loaded.
 social:
   GitHub: https://github.com/yyj94 || github
-  #E-Mail: mailto:yourname@gmail.com || envelope
+  E-Mail: mailto:jarvisye94@gmail.com || envelope
   #Weibo: https://weibo.com/yourname || weibo
   #Google: https://plus.google.com/yourname || google
-  Twitter: https://twitter.com/J1e_ye || twitter
+  #Twitter: https://twitter.com/J1e_ye || twitter
   #FB Page: https://www.facebook.com/yourname || facebook
   #VK Group: https://vk.com/yourname || vk
-  #StackOverflow: https://stackoverflow.com/yourname || stack-overflow
+  #StackOverflow: https://stackoverflow.com/users/8010155/jason-ye || stack-overflow
   #YouTube: https://youtube.com/yourname || youtube
   #Instagram: https://instagram.com/yourname || instagram
   #Skype: skype:yourname?call|chat || skype
@@ -528,7 +528,10 @@ math:
       copy_tex_js: //cdn.jsdelivr.net/npm/katex@0/dist/contrib/copy-tex.min.js
       copy_tex_css: //cdn.jsdelivr.net/npm/katex@0/dist/contrib/copy-tex.min.css
 
-# Fireworks
+# 网页崩溃欺骗开关
+crash_cheat: true
+
+# 点击烟花效果开关
 fireworks: false
 
 # Fancybox. There is support for old version 2 and new version 3.
@@ -964,9 +967,9 @@ three:
 # Dependencies: https://github.com/theme-next/theme-next-canvas-nest
 # For more information: https://github.com/hustcc/canvas-nest.js
 canvas_nest:
-  enable: false
+  enable: true
   onmobile: true # display on mobile or not
-  color: "0,0,255" # RGB values, use `,` to separate
+  color: "51,51,51" # RGB values, use `,` to separate
   opacity: 0.5 # the opacity of line: 0~1
   zIndex: -1 # z-index property of the background
   count: 99 # the number of lines
