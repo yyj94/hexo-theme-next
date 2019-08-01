@@ -108,5 +108,15 @@
     <script type="text/javascript" src="/js/src/crash_cheat.js"></script>
   {% endif %}
 
+  {% if theme.prettify.enable %}
+    <script type="text/javascript" src="/js/google-code-prettify/prettify.js"></script>
+    <script type="text/javascript">
+      window.onload = function () {
+        $('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+        prettyPrint();
+      }
+</script>
+  {% endif %}
+
 </body>
 </html>

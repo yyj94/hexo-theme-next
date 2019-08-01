@@ -96,6 +96,11 @@
   <link rel="stylesheet" href="{{ pace_css_uri }}">
 {%- endif %}
 
+{%- if theme.prettify.enable %}
+  {%- set prettify_css_uri = url_for('/js/google-code-prettify/'+ theme.prettify.style +'.css') %}
+  <link href="{{prettify_css_uri}}" type="text/css" rel="stylesheet" />
+{%- endif %}
+
 {# Export some HEXO Configurations to Front-End #}
 <script id="hexo.configurations">
   var NexT = window.NexT || {};

@@ -528,6 +528,11 @@ math:
       copy_tex_js: //cdn.jsdelivr.net/npm/katex@0/dist/contrib/copy-tex.min.js
       copy_tex_css: //cdn.jsdelivr.net/npm/katex@0/dist/contrib/copy-tex.min.css
 
+# Google Code Prettify
+prettify:
+  enable: true
+  style: github-v2
+
 # 网页崩溃欺骗开关
 crash_cheat: true
 
